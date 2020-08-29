@@ -5,7 +5,7 @@ export const DATA = [
     {
         id: "2",
         authorName: "Đức Huynh",
-        borrow: 2000000,
+        borrow: 20000000,
         address:"Đại Cát, Liên Mạc, Bắc Từ Liêm, Hà Nội",
         phone:"0386578231",
         loandate:"29-8-2020",
@@ -16,7 +16,7 @@ export const DATA = [
     {
         id: "3",
         authorName: "Quỳnh Trang",
-        borrow: 2000000,
+        borrow: 45000000,
         address:"Đại Cát, Liên Mạc, Bắc Từ Liêm, Hà Nội",
         phone:"0386578231",
         loandate:"29-8-2020",
@@ -28,7 +28,7 @@ export const DATA = [
     {
         id: "4",
         authorName: "Hồng Quyên",
-        borrow: 2000000,
+        borrow: 30000000,
         address:"Đại Cát, Liên Mạc, Bắc Từ Liêm, Hà Nội",
         phone:"0386578231",
         loandate:"29-8-2020",
@@ -39,7 +39,7 @@ export const DATA = [
     {
         id: "5",
         authorName: "Quỳnh Trang",
-        borrow: 2000000,
+        borrow: 50000000,
         address:"Đại Cát, Liên Mạc, Bắc Từ Liêm, Hà Nội",
         phone:"0386578231",
         loandate:"29-8-2020",
@@ -50,7 +50,7 @@ export const DATA = [
     {
         id: "6",
         authorName: "Quỳnh Trang",
-        borrow: 2000000,
+        borrow: 45000000,
         address:"Đại Cát, Liên Mạc, Bắc Từ Liêm, Hà Nội",
         phone:"0386578231",
         loandate:"29-8-2020",
@@ -61,18 +61,18 @@ export const DATA = [
     {
         id: "7",
         authorName: "Ngọc Bích",
-        borrow: 2000000,
+        borrow: 20000000,
         address:"Đại Cát, Liên Mạc, Bắc Từ Liêm, Hà Nội",
         phone:"0386578231",
         loandate:"29-8-2020",
         numberday:50,
         paymentdate:10  ,
-        status:"Đang vay"
+        status:"muộn 1 ngày"
     },
     {
         id: "8",
         authorName: "Hồng Quyên",
-        borrow: 2000000,
+        borrow: 30000000,
         address:"Đại Cát, Liên Mạc, Bắc Từ Liêm, Hà Nội",
         phone:"0386578231",
         loandate:"29-8-2020",
@@ -83,7 +83,7 @@ export const DATA = [
     {
         id: "9",
         authorName: "Quỳnh Trang",
-        borrow: 2000000,
+        borrow: 35000000,
         address:"Đại Cát, Liên Mạc, Bắc Từ Liêm, Hà Nội",
         phone:"0386578231",
         loandate:"29-8-2020",
@@ -95,7 +95,7 @@ export const DATA = [
     {
         id: "10",
         authorName: "Ngọc Bích",
-        borrow: 2000000,
+        borrow: 20000000,
         address:"Đại Cát, Liên Mạc, Bắc Từ Liêm, Hà Nội",
         phone:"0386578231",
         loandate:"29-8-2020",
@@ -106,7 +106,7 @@ export const DATA = [
     {
         id: "11",
         authorName: "Ngọc Bích",
-        borrow: 2000000,
+        borrow: 25000000,
         address:"Đại Cát, Liên Mạc, Bắc Từ Liêm, Hà Nội",
         phone:"0386578231",
         loandate:"29-8-2020",
