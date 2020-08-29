@@ -24,6 +24,7 @@ export default function BorrowerScreen() {
                 </View>
             )
         }
+        else{
             return (
                 <TouchableOpacity>
                   <View style={styles.container}>
@@ -45,6 +46,8 @@ export default function BorrowerScreen() {
                   </View>
                 </TouchableOpacity>
               );
+        }
+            
         
             
     };  
@@ -53,7 +56,7 @@ export default function BorrowerScreen() {
         <SafeAreaView>      
             <View style={styles.header}>
                 <TouchableOpacity style={styles.addnew}>
-                    <Text>Thêm mới</Text>
+                    <Text style={{fontWeight:"bold"}}>Thêm mới</Text>
                 </TouchableOpacity>
             </View>     
          <FlatList
@@ -62,13 +65,14 @@ export default function BorrowerScreen() {
           keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}
         />
+        
         </SafeAreaView>
     );
 }
 const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
-    borderBottomColor: '#bdc3c7',
+    borderBottomColor: 'gray',
     width:"100%",
     height:80,
     flexDirection:"row"
@@ -83,16 +87,17 @@ const styles = StyleSheet.create({
   column:{
       flexDirection:"row",
       borderBottomWidth: 1,
-      borderBottomColor: '#bdc3c7',
-      borderTopColor:"#bdc3c7",
+      borderBottomColor: 'gray',
+      borderTopColor:"gray",
       borderTopWidth:1,
       width:"100%",
-      height:80,
-      marginTop:8
+      height:60,
+      marginTop:4
     },
     header:{
         width:"100%",
-        height:48
+        height:56,
+        backgroundColor:"#2c3e50"
     },
     addnew:{
         backgroundColor:"#3498db",
