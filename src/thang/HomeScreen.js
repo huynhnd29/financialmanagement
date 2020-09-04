@@ -1,24 +1,24 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
+import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { PieChart } from 'react-native-svg-charts'
 export default class HomeScreen extends Component {
     render() {
         const data = [1, 20, 79]
- 
+
         const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)
         const pieData = data
-        .filter((value) => value > 0)
-        .map((value, index) => ({
-            value,
-            svg: {
-                fill: randomColor(),
-                onPress: () => console.log('press', index),
-            },
-            key: `pie-${index}`,
-        }))
+            .filter((value) => value > 0)
+            .map((value, index) => ({
+                value,
+                svg: {
+                    fill: randomColor(),
+                    onPress: () => console.log('press', index),
+                },
+                key: `pie-${index}`,
+            }))
         return (
-            <View style={homestyle.body}>
+            <ScrollView style={homestyle.body}>
                 <View style={homestyle.acc}>
                     <Image style={homestyle.avt} source={require("./img/avt.png")} />
                     <View style={homestyle.info}>
@@ -74,11 +74,13 @@ export default class HomeScreen extends Component {
                         <Text style={homestyle.text3}>Góp vốn</Text>
                     </View>
                 </View>
-                <Text style={homestyle.text2}>Overview</Text>
-                <View style={{marginTop: 14}}>
+                <View>
+                    <Text style={[homestyle.text2, { marginBottom: 12 }]}>Đang cho vay</Text>
+                    <PieChart style={{ height: 200, marginLeft: -200, marginBottom: 8 }} data={pieData} />
+                    <Text style={[homestyle.text2, { marginBottom: 12 }]}>Đang cho vay</Text>
                     <PieChart style={{ height: 200, marginLeft: -200 }} data={pieData} />
                 </View>
-            </View>
+            </ScrollView>
         )
     }
 }
@@ -100,7 +102,7 @@ const homestyle = StyleSheet.create({
         color: "#7B7F9E", fontSize: 16, textAlign: "center", alignSelf: "center"
     },
     menu: {
-        margin: 24,
+        margin: 18,
         // marginBottom: 0,
         flexDirection: "row",
         justifyContent: "space-between"
