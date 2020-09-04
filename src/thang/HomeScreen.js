@@ -4,19 +4,46 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { PieChart } from 'react-native-svg-charts'
 export default class HomeScreen extends Component {
     render() {
-        const data = [1, 20, 79]
-
-        const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)
-        const pieData = data
-            .filter((value) => value > 0)
-            .map((value, index) => ({
-                value,
-                svg: {
-                    fill: randomColor(),
-                    onPress: () => console.log('press', index),
-                },
-                key: `pie-${index}`,
-            }))
+        const data1 = [
+            {
+                key: 1,
+                amount: 50,
+                title: "Cầm đồ",
+                svg: { fill: '#600080' },
+            },
+            {
+                key: 2,
+                amount: 50,
+                title: "Vay lãi",
+                svg: { fill: '#9900cc' }
+            },
+            {
+                key: 3,
+                amount: 40,
+                title: "Bát họ",
+                svg: { fill: '#c61aff' }
+            }
+        ]
+        const data2 = [
+            {
+                key: 1,
+                amount: 40,
+                title: "Cầm đồ",
+                svg: { fill: '#c61aff' }
+            },
+            {
+                key: 2,
+                amount: 95,
+                title: "Vay lãi",
+                svg: { fill: '#d966ff' }
+            },
+            {
+                key: 3,
+                amount: 35,
+                title: "Bát họ",
+                svg: { fill: '#ecb3ff' }
+            }
+        ]
         return (
             <ScrollView style={homestyle.body}>
                 <View style={homestyle.acc}>
@@ -50,7 +77,7 @@ export default class HomeScreen extends Component {
                 <Text style={homestyle.text2}>Services</Text>
                 <View style={homestyle.menu}>
                     <View>
-                        <TouchableOpacity style={homestyle.menuItem}>
+                        <TouchableOpacity style={homestyle.menuItem} onPress={() => console.log(randomColor())}>
                             <Icon name="motorcycle" style={homestyle.icon} />
                         </TouchableOpacity>
                         <Text style={homestyle.text3}>Cầm đồ</Text>
@@ -74,11 +101,47 @@ export default class HomeScreen extends Component {
                         <Text style={homestyle.text3}>Góp vốn</Text>
                     </View>
                 </View>
+                <Text style={[homestyle.text2, { marginBottom: 12 }]}>Đang cho vay</Text>
                 <View>
-                    <Text style={[homestyle.text2, { marginBottom: 12 }]}>Đang cho vay</Text>
-                    <PieChart style={{ height: 200, marginLeft: -200, marginBottom: 8 }} data={pieData} />
-                    <Text style={[homestyle.text2, { marginBottom: 12 }]}>Đang cho vay</Text>
-                    <PieChart style={{ height: 200, marginLeft: -200 }} data={pieData} />
+                    <PieChart
+                        style={{ height: 200, marginLeft: -200, marginBottom: 16 }}
+                        valueAccessor={({ item }) => item.amount}
+                        data={data1}
+                        spacing={0}
+                        outerRadius={'95%'}
+                    />
+                    <View style={{ width: 190, right: 8, height: 50, position: "absolute", marginTop: 12 }}>
+                        {
+                            data1.map((item) => (
+                                <View style={{ flexDirection: "row", marginBottom: 8 }} key={item.key}>
+                                    <Icon name="pie-chart" color={item.svg.fill} size={22} />
+                                    <Text style={[homestyle.text3, {marginLeft: 4}]}>{item.title}: </Text>
+                                    <Text style={homestyle.text3}>{item.amount}</Text>
+                                </View>
+                            ))
+                        }
+                    </View>
+                </View>
+                <Text style={[homestyle.text2, { marginBottom: 12 }]}>Lợi nhuận</Text>
+                <View>
+                <PieChart
+                    style={{ height: 200, marginLeft: -200 }}
+                    valueAccessor={({ item }) => item.amount}
+                    data={data2}
+                    spacing={0}
+                    outerRadius={'95%'}
+                />
+                <View style={{ width: 190, right: 8, height: 50, position: "absolute", marginTop: 12 }}>
+                        {
+                            data2.map((item) => (
+                                <View style={{ flexDirection: "row", marginBottom: 8 }} key={item.key}>
+                                    <Icon name="pie-chart" color={item.svg.fill} size={22} />
+                                    <Text style={[homestyle.text3, {marginLeft: 4}]}>{item.title}: </Text>
+                                    <Text style={homestyle.text3}>{item.amount}</Text>
+                                </View>
+                            ))
+                        }
+                    </View>
                 </View>
             </ScrollView>
         )
