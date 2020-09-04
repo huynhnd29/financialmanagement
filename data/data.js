@@ -1,7 +1,4 @@
-export const DATA = [
-    {
-
-    },
+export const DATA = [   
     {
         id: "2",
         authorName: "Đức Huynh",
@@ -11,7 +8,9 @@ export const DATA = [
         loandate:"29-8-2020",
         numberday:50,
         paymentdate:10  ,
-        status:"Đang vay"
+        status:"Đang vay",
+        remain:10000000,
+        description:"aaaaaaaaaaaaaaaaaaaaaaaaaaa"
     },
     {
         id: "3",
@@ -23,7 +22,8 @@ export const DATA = [
         numberday:50,
         paymentdate:10  ,
         status:"Đang vay",
-
+        remain:10000000,
+        description:"aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     },
     {
         id: "4",
@@ -34,7 +34,9 @@ export const DATA = [
         loandate:"29-8-2020",
         numberday:50,
         paymentdate:10  ,
-        status:"Đang vay"
+        status:"Đang vay",
+        remain:10000000,
+        description:"aaaaaaaaaaaaaaaaaaaaaaa"
     },
     {
         id: "5",
@@ -45,7 +47,9 @@ export const DATA = [
         loandate:"29-8-2020",
         numberday:50,
         paymentdate:10  ,
-        status:"Đang vay"
+        status:"Đang vay",
+        remain:10000000,
+        description:"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     },
     {
         id: "6",
@@ -56,7 +60,9 @@ export const DATA = [
         loandate:"29-8-2020",
         numberday:50,
         paymentdate:10  ,
-        status:"Đang vay"
+        status:"Đang vay",
+        remain:10000000,
+        description:"aaaaaaaaaaaaaaaaaaaaa"
     },
     {
         id: "7",
@@ -67,7 +73,9 @@ export const DATA = [
         loandate:"29-8-2020",
         numberday:50,
         paymentdate:10  ,
-        status:"muộn 1 ngày"
+        status:"muộn 1 ngày",
+        remain:10000000,
+        description:"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     },
     {
         id: "8",
@@ -78,7 +86,9 @@ export const DATA = [
         loandate:"29-8-2020",
         numberday:50,
         paymentdate:10  ,
-        status:"Đang vay"
+        status:"Đang vay",
+        remain:10000000,
+        description:"aaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     },
     {
         id: "9",
@@ -89,7 +99,9 @@ export const DATA = [
         loandate:"29-8-2020",
         numberday:50,
         paymentdate:10  ,
-        status:"Đang vay"
+        status:"Đang vay",
+        remain:10000000,
+        description:"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
     },
     {
@@ -100,8 +112,10 @@ export const DATA = [
         phone:"0386578231",
         loandate:"29-8-2020",
         numberday:50,
-        paymentdate:10   ,
-        status:"Đang vay"     
+        paymentdate:10 ,
+        status:"Đang vay",
+        remain:10000000,
+        description:"aaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     },
     {
         id: "11",
@@ -112,7 +126,9 @@ export const DATA = [
         loandate:"29-8-2020",
         numberday:50,
         paymentdate:10   ,
-        status:"Đang vay"     
+        status:"Đang vay"     ,
+        remain:10000000,
+        description:"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     },
     
 ]
