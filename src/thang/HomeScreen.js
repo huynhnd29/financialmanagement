@@ -3,7 +3,28 @@ import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from 'rea
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { PieChart } from 'react-native-svg-charts'
 export default class HomeScreen extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data: [],
+            isLoading: true
+        };
+    }
+    componentDidMount() {
+        fetch('https://fake-rest-api-nodejsa.herokuapp.com/store')
+            .then((response) => response.json())
+            .then((json) => {
+                this.setState({ data: json[0] });
+                // console.log(this.state.data);
+            })
+            .catch((error) => console.error(error))
+            .finally(() => {
+                this.setState({ isLoading: false });
+            });
+    }
     render() {
+        const { data } = this.state;
         const data1 = [
             {
                 key: 1,
@@ -49,14 +70,14 @@ export default class HomeScreen extends Component {
                 <View style={homestyle.acc}>
                     <Image style={homestyle.avt} source={require("./img/avt.png")} />
                     <View style={homestyle.info}>
-                        <Text style={{ fontSize: 20, color: "#FFFFFF" }}>Đức Huynh</Text>
+                        <Text style={{ fontSize: 20, color: "#FFFFFF" }}>{data.name}</Text>
                         <Text style={{ fontSize: 14, color: "#7B7F9E" }}>Đâu đó, Hà Nội</Text>
                     </View>
                 </View>
                 <Text style={homestyle.text2}>Overview</Text>
                 <View style={{ flexDirection: "row", width: "100%", justifyContent: "space-around", paddingHorizontal: 4, marginTop: 12 }}>
                     <View style={homestyle.moneybox}>
-                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>258,850,000</Text>
+                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{data.authorizedcapital}</Text>
                         <Text style={{ fontSize: 14, color: "#7B7F9E", marginTop: 12 }}>TỔNG QUỸ TIỀN MẶT</Text>
                     </View>
                     <View style={homestyle.moneybox}>
@@ -66,7 +87,7 @@ export default class HomeScreen extends Component {
                 </View>
                 <View style={{ flexDirection: "row", width: "100%", justifyContent: "space-around", paddingHorizontal: 4, marginTop: 12, marginBottom: 12 }}>
                     <View style={homestyle.moneybox}>
-                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>94,700,000</Text>
+                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{data.investmentmoney}</Text>
                         <Text style={{ fontSize: 14, color: "#7B7F9E", marginTop: 12 }}>TIỀN ĐANG CHO VAY</Text>
                     </View>
                     <View style={homestyle.moneybox}>
@@ -115,7 +136,7 @@ export default class HomeScreen extends Component {
                             data1.map((item) => (
                                 <View style={{ flexDirection: "row", marginBottom: 8 }} key={item.key}>
                                     <Icon name="pie-chart" color={item.svg.fill} size={22} />
-                                    <Text style={[homestyle.text3, {marginLeft: 4}]}>{item.title}: </Text>
+                                    <Text style={[homestyle.text3, { marginLeft: 4 }]}>{item.title}: </Text>
                                     <Text style={homestyle.text3}>{item.amount}</Text>
                                 </View>
                             ))
@@ -124,19 +145,19 @@ export default class HomeScreen extends Component {
                 </View>
                 <Text style={[homestyle.text2, { marginBottom: 12 }]}>Lợi nhuận</Text>
                 <View>
-                <PieChart
-                    style={{ height: 200, marginLeft: -200 }}
-                    valueAccessor={({ item }) => item.amount}
-                    data={data2}
-                    spacing={0}
-                    outerRadius={'95%'}
-                />
-                <View style={{ width: 190, right: 8, height: 50, position: "absolute", marginTop: 12 }}>
+                    <PieChart
+                        style={{ height: 200, marginLeft: -200 }}
+                        valueAccessor={({ item }) => item.amount}
+                        data={data2}
+                        spacing={0}
+                        outerRadius={'95%'}
+                    />
+                    <View style={{ width: 190, right: 8, height: 50, position: "absolute", marginTop: 12 }}>
                         {
                             data2.map((item) => (
                                 <View style={{ flexDirection: "row", marginBottom: 8 }} key={item.key}>
                                     <Icon name="pie-chart" color={item.svg.fill} size={22} />
-                                    <Text style={[homestyle.text3, {marginLeft: 4}]}>{item.title}: </Text>
+                                    <Text style={[homestyle.text3, { marginLeft: 4 }]}>{item.title}: </Text>
                                     <Text style={homestyle.text3}>{item.amount}</Text>
                                 </View>
                             ))
