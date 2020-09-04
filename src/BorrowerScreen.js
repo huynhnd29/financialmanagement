@@ -106,7 +106,7 @@ export default function BorrowerScreen() {
             <Text>Khách hàng: {name}</Text>
             <Text>SĐT: {phone}</Text>
             <Text>Địa chỉ: {adress}</Text>
-            <Text>Bát: {borrow.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} VNĐ</Text>
+            {/* <Text>Bát: {borrow.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} VNĐ</Text> */}
             <Text>Ngày nhận tiền: {loandate}</Text>
             <Text>Kỳ: {numberday} Ngày</Text>
             <Text>Trạng thái: {status}</Text>
