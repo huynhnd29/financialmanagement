@@ -12,6 +12,7 @@ import HomeScreen from './src/HomeScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Header } from 'react-native/Libraries/NewAppScreen';
+import Capitalcontribution from './src/Capitalcontribution';
 
 const StackNavigator = createStackNavigator();
 
@@ -23,8 +24,10 @@ const App = () => {
       <StackNavigator.Navigator screenOptions={{header:()=>null}}>
           <StackNavigator.Screen name="HomeScreen" component={HomeScreen}  />
           <StackNavigator.Screen name="BorrowerScreen" component={BorrowerScreen} />
+          <StackNavigator.Screen name="Capitalcontribution" component={Capitalcontribution} />
       </StackNavigator.Navigator>
     </NavigationContainer>
+  
   );
 };
 

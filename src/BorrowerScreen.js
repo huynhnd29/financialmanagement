@@ -132,21 +132,21 @@ export default function BorrowerScreen() {
         setModalVisible2(false)
         insertData("https://fake-rest-api-nodejsa.herokuapp.com/user",postData)
     }
-    const summitdata =(name1,borrow1,address1,phone1,loandate1,numberday1,description1,ratio1,moneyaday1)=>{
+    const summitdata =(name1,borrow1,address1,phone1,loandate1,numberday1,description1,ratio1)=>{
         setPostData({
-               id: 23 ,
+               id: 24,
                authorName: name1,
-               borrow:borrow1,
+               borrow:Number(borrow1),
                address:address1,
-               phone:phone1,
+               phone:Number(phone1),
                loandate:loandate1,
-               numberday:numberday1,
+               numberday:Number(numberday1),
                paymentdate:50,
                status:"Đang vay",
-               remain:borrow1,
+               remain:Number(borrow1),
                description:description1,
-               ratio:ratio1,
-               moneyaday:moneyaday1
+               ratio:Number(ratio1),
+               moneyaday:Number(borrow1)/50
        })
     }
     const dialCall = (number) => {
@@ -171,7 +171,8 @@ export default function BorrowerScreen() {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{marginTop:60}}>
+                    <View style={{marginTop:40}}>
+                        <Text style={{color:"#fff",fontSize:16}}>Bát Họ</Text>
                         <Text style={styles.totallmoney}>{totalloanamount.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} VNĐ</Text>
                         <Text style={{color:"#fff"}}>Lãi xuất: {interestrate.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
                         <Icon name="bitbucket" size={30} color="gray"/>
@@ -265,9 +266,8 @@ export default function BorrowerScreen() {
                 <TextInput style={styles.input} placeholder=" Ngày nhận tiền" onChangeText={text => setLoandate(text)}/>
                 <TextInput style={styles.input} placeholder=" Trả trong" onChangeText={text => setNumberday(text)}/>
                 {/* <TextInput style={styles.input} placeholder=" kỳ" onChangeText={text => setPay(text)}/> */}
-                <TextInput style={styles.input} placeholder=" Tiền 1 ngày" onChangeText={text => setMoneyaday(text)}/>
                 <TextInput style={styles.input} placeholder=" Mô tả" onChangeText={text => setDescription(text)}/>
-                <TouchableOpacity style={styles.addnew} onPress={()=>summitdata(name,borrow,address,phone,loandate,numberday,description,ratio,moneyaday)}>
+                <TouchableOpacity style={styles.addnew} onPress={()=>summitdata(name,borrow,address,phone,loandate,numberday,description,ratio)}>
                     <Text style={{fontWeight:"bold"}}>Thêm</Text>
                 </TouchableOpacity>
                 

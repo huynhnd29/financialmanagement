@@ -11,7 +11,8 @@ export default class HomeScreen extends Component {
             isLoading: true,
             articles:[],
             Totalloanamount:0,
-            totalcontract:0
+            totalcontract:0,
+            totalinterestrate:0
         };
     }
     componentDidMount() {
@@ -20,7 +21,7 @@ export default class HomeScreen extends Component {
         fetch('https://fake-rest-api-nodejsa.herokuapp.com/store')
             .then((response) => response.json())
             .then((json) => {
-                this.setState({ data: json[0] });
+                this.setState({ data: json[0]} );
                 // console.log(this.state.data);
             })
             .catch((error) => console.error(error))
@@ -40,6 +41,22 @@ export default class HomeScreen extends Component {
                 }
                 this.setState({ Totalloanamount: totallmoney });
                 this.setState({ totalcontract: contract });
+            })
+            .catch((error) => console.error(error))
+            .finally(() => {
+                this.setState({ isLoading: false });
+            });
+        fetch('https://fake-rest-api-nodejsa.herokuapp.com/Capitalcontribution')
+            .then((response) => response.json())
+            .then((json) => {
+                this.setState({ articles: json });
+                // console.log(this.state.data);
+                let totallmoney=0;
+                for (var i=0;i<json.length;i++){
+                    totallmoney +=  (json[i]["interestrate"])
+               }
+               this.setState({totalinterestrate: totallmoney})
+                
             })
             .catch((error) => console.error(error))
             .finally(() => {
@@ -65,7 +82,7 @@ export default class HomeScreen extends Component {
             },
             {
                 key: 3,
-                amount:this.state.data["authorizedcapital"]-this.state.data["investmentmoney"]-this.state.data["loan"],
+                amount:this.state.data["authorizedcapital"]-(this.state.data["investmentmoney"]+this.state.data["loan"]),
                 title: "Tiền rảnh",
                 svg: { fill: '#c61aff' }
             }
@@ -73,19 +90,19 @@ export default class HomeScreen extends Component {
         const data2 = [
             {
                 key: 1,
-                amount: 0,
-                title: "Cầm đồ",
+                amount: this.state.totalinterestrate,
+                title: "Góp vốn",
                 svg: { fill: '#c61aff' }
             },
             {
                 key: 0,
-                amount: 1,
+                amount: 0,
                 title: "Vay lãi",
                 svg: { fill: '#d966ff' }
             },
             {
                 key: 3,
-                amount: this.state.Totalloanamount.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'),
+                amount: this.state.Totalloanamount,
                 title: "Bát họ",
                 svg: { fill: '#ecb3ff' }
             }
@@ -120,6 +137,16 @@ export default class HomeScreen extends Component {
                         <Text style={{ fontSize: 14, color: "#7B7F9E", marginTop: 12 }}>LÃI ĐÃ THU TRONG THÁNG</Text>
                     </View>
                 </View>
+                <View style={{ flexDirection: "row", width: "100%", justifyContent: "space-around", paddingHorizontal: 4, marginTop: 4, marginBottom: 12 }}>
+                    <View style={homestyle.moneybox}>
+                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{this.state.data["loan"]}</Text>
+                        <Text style={{ fontSize: 14, color: "#7B7F9E", marginTop: 12 }}>TIỀN ĐANG GÓP VỐN</Text>
+                    </View>
+                    <View style={homestyle.moneybox}>
+                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{this.state.totalinterestrate.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
+                        <Text style={{ fontSize: 14, color: "#7B7F9E", marginTop: 12 }}>LÃI GÓP VỐN</Text>
+                    </View>
+                </View>
                 <Text style={homestyle.text2}>Services</Text>
                 <View style={homestyle.menu}>
                     <View>
@@ -143,7 +170,9 @@ export default class HomeScreen extends Component {
                         <Text style={homestyle.text3}>Bát họ</Text>
                     </View>
                     <View>
-                        <TouchableOpacity style={homestyle.menuItem}>
+                        <TouchableOpacity style={homestyle.menuItem} onPress={() =>
+                                                                this.props.navigation.navigate('Capitalcontribution')
+                                                            }>
                             <Icon name="diamond" style={homestyle.icon} />
                         </TouchableOpacity>
                         <Text style={homestyle.text3}>Góp vốn</Text>
@@ -185,7 +214,7 @@ export default class HomeScreen extends Component {
                                 <View style={{ flexDirection: "row", marginBottom: 8 }} key={item.key}>
                                     <Icon name="pie-chart" color={item.svg.fill} size={22} />
                                     <Text style={[homestyle.text3, { marginLeft: 4 }]}>{item.title}: </Text>
-                                    <Text style={homestyle.text3}>{item.amount}</Text>
+                                    <Text style={homestyle.text3}>{item.amount.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
                                 </View>
                             ))
                         }
@@ -259,7 +288,7 @@ const homestyle = StyleSheet.create({
     moneybox: {
         //    margin: 12,
         //    height: 116,
-        width: 190,
+        width: "45%",
         backgroundColor: "#212330",
         borderRadius: 12,
         padding: 16,
