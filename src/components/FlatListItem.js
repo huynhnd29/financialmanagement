@@ -4,7 +4,9 @@ import { View, Text } from 'react-native'
 export default class FlatListItem extends Component {
     render() {
         return (
-            <View style={{flex: 1, backgroundColor: this.props.index %2==0 ?'tomato' : 'blue'}}>
+            <View 
+            // style={{flex: 1, backgroundColor: this.props.index %2==0 ?'tomato' : 'blue'}}
+            >
                 <Text>
                     {this.props.authorName}  
                 </Text>

@@ -1,7 +1,4 @@
-const { NativeModules } = require("react-native");
-
-var flatListData =
-[
+export const flatListData = [
     {
         "id": "2",
         "authorName": "Đức Huynh",
@@ -126,4 +123,3 @@ var flatListData =
         "status":"Đang vay"     
     },
 ];
-module.exports = flatListData;

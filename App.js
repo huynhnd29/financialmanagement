@@ -1,21 +1,9 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React from 'react'
+import BorrowerScreen from './src/BorrowerScreen'
+import Bang from './src/components/Bang'
 
-import React from 'react';
-import BorrowerScreen from './src/BorrowerScreen';
-
-
-const App = () => {
+export default function App() {
   return (
-    <BorrowerScreen/>
-  );
-};
-
-
-
-export default App;
+    <Bang />
+  )
+}
