@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, TextInput, Modal, ActivityIndicator } from 'react-native';
 import { DATA } from '../data/data';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 export default function BorrowerScreen() {
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible2, setModalVisible2] = useState(false);
     const [name,setName]=useState("")
     const [phone,setPhone]=useState("")
     const [address,setAddress]=useState("")
@@ -115,13 +116,40 @@ export default function BorrowerScreen() {
         
             
     };  
+    const summit =()=>{
+        setModalVisible2(false)
+        fetch('https://mywebsite.com/endpoint/', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: "20" ,
+                authorName: "Đức Huynh",
+                borrow:20000000,
+                address:"Đại Cát, Liên Mạc, Bắc Từ Liêm, Hà Nội",
+                phone:"0386578231   ",
+                loandate:"29-8-2020",
+                numberday:50,
+                paymentdate:10,
+                status:"Đang vay",
+                remain:20000000,
+                description:"description1aaaaaaaaaaaaaaaaaaaa",
+                ratio:8,
+                moneyaday:400000
+
+            }),
+        });
+        setModalVisible2(false)
+    }
     
     return (
         <SafeAreaView style={{flex:1}}>   
             
                 <View style={styles.header}>
                     <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                        <TouchableOpacity style={styles.addnew}>
+                        <TouchableOpacity style={styles.addnew} onPress={()=>setModalVisible2(true)}>
                             <Text style={{fontWeight:"bold"}}>Thêm mới</Text>
                         </TouchableOpacity>
                         <View style={{flexDirection:"row"}}>
@@ -134,6 +162,8 @@ export default function BorrowerScreen() {
                     <View style={{marginTop:60}}>
                         <Text style={styles.totallmoney}>{totalloanamount.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} VNĐ</Text>
                         <Text style={{color:"#fff"}}>Lãi xuất: {interestrate.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
+                        <Icon name="bitbucket" size={30} color="gray"/>
+                        
                     </View>
                     
                 </View>  
@@ -161,45 +191,68 @@ export default function BorrowerScreen() {
             transparent={true}
             visible={modalVisible}
             >
-        <View style={{flex:1,backgroundColor:"#fff",paddingHorizontal:16}}>
-            <TouchableOpacity style={styles.addnew} onPress={()=>setModalVisible(false)}>
-                <Text style={{fontWeight:"bold"}}>OK</Text>
-            </TouchableOpacity>
-            <View style={styles.headermodal}>
-                <Text style={[styles.text,{fontWeight:"bold"}]}>Khách hàng: {name}</Text>
-                <Text style={styles.text}>SĐT: {phone}</Text>
-                <Text style={styles.text}>Bát: {borrow} VNĐ (10 ăn {ratio})</Text>
-            </View>
-            <View style={styles.infomation}>
-                <Text style={{color:"gray"}}> Địa chỉ:</Text>
-                <Text style={styles.text}> {address}</Text>
-            </View>
-            <View style={styles.infomation}>
-                <Text style={{color:"gray"}}> Ngày nhận tiền:</Text>
-                <Text style={styles.text}> {loandate}</Text>
-            </View>
-            <View style={styles.infomation}>
-                <Text style={{color:"gray"}}> Trả trong:</Text>
-                <Text style={styles.text}> {numberday} Ngày</Text>
-            </View>
-            <View style={styles.infomation}>
-                <Text style={{color:"gray"}}> Trạng thái:</Text>
-                <Text style={styles.text}> {status}</Text>
-            </View>
-            <View style={styles.infomation}>
-                <Text style={{color:"gray"}}> Tiền 1 ngày:</Text>
-                <Text style={styles.text}> {moneyaday}</Text>
-            </View>
-            
-            
-            <Text style={styles.text}>Mô tả :</Text>
-            <View style={{alignItems:"center",marginTop:8}}>
-                <View style={styles.descriptonstyle}>
-                    <Text style={styles.text} >{description}</Text>
+            <View style={{flex:1,backgroundColor:"#fff",paddingHorizontal:16}}>
+                <TouchableOpacity style={styles.addnew} onPress={()=>setModalVisible(false)}>
+                    <Text style={{fontWeight:"bold"}}>OK</Text>
+                </TouchableOpacity>
+                <View style={styles.headermodal}>
+                    <Text style={[styles.text,{fontWeight:"bold"}]}>Khách hàng: {name}</Text>
+                    <Text style={styles.text}>SĐT: {phone}</Text>
+                    <Text style={styles.text}>Bát: {borrow} VNĐ (10 ăn {ratio})</Text>
                 </View>
+                <View style={styles.infomation}>
+                    <Text style={{color:"gray"}}> Địa chỉ:</Text>
+                    <Text style={styles.text}> {address}</Text>
+                </View>
+                <View style={styles.infomation}>
+                    <Text style={{color:"gray"}}> Ngày nhận tiền:</Text>
+                    <Text style={styles.text}> {loandate}</Text>
+                </View>
+                <View style={styles.infomation}>
+                    <Text style={{color:"gray"}}> Trả trong:</Text>
+                    <Text style={styles.text}> {numberday} Ngày</Text>
+                </View>
+                <View style={styles.infomation}>
+                    <Text style={{color:"gray"}}> Trạng thái:</Text>
+                    <Text style={styles.text}> {status}</Text>
+                </View>
+                <View style={styles.infomation}>
+                    <Text style={{color:"gray"}}> Tiền 1 ngày:</Text>
+                    <Text style={styles.text}> {moneyaday}</Text>
+                </View>
+                
+                
+                <Text style={styles.text}>Mô tả :</Text>
+                <View style={{alignItems:"center",marginTop:8}}>
+                    <View style={styles.descriptonstyle}>
+                        <Text style={styles.text} >{description}</Text>
+                    </View>
+                </View>
+                
             </View>
+      </Modal>
+      <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible2}
+            >
+            <View style={{flex:1,backgroundColor:"#fff",paddingHorizontal:16}}>
+                <TouchableOpacity style={styles.addnew} onPress={()=>summit()}>
+                    <Text style={{fontWeight:"bold"}}>OK</Text>
+                </TouchableOpacity>
+                <TextInput style={styles.input} placeholder=" Tên khách hàng"/>
+                <TextInput style={styles.input} placeholder=" Số điện thoại"/>
+                <TextInput style={styles.input} placeholder=" Bát" />
+                <TextInput style={styles.input} placeholder=" Địa chỉ" />
+                <TextInput style={styles.input} placeholder=" tỷ lên /10" />
+                <TextInput style={styles.input} placeholder=" Ngày nhận tiền" />
+                <TextInput style={styles.input} placeholder=" Trả trong" />
+                {/* <TextInput style={styles.input} placeholder=" kỳ" value={paymentdate}/> */}
+                <TextInput style={styles.input} placeholder=" Tiền 1 ngày" />
+                <TextInput style={styles.input} placeholder=" Mô tả" />
             
-        </View>
+                
+            </View>
       </Modal>
         </SafeAreaView>
     );
@@ -303,6 +356,15 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         fontSize:32,
         color:"#fff"
+    },
+    input:{
+        width:"100%",
+        height:"8%",
+        borderColor:"#d2dae2",
+        borderWidth:1,
+        justifyContent:"center",
+        marginTop:8,
+        paddingHorizontal:8
     }
 });
 
