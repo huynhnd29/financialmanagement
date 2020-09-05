@@ -165,6 +165,14 @@ export default function BorrowerScreen() {
             <TouchableOpacity style={styles.addnew} onPress={()=>setModalVisible(false)}>
                 <Text style={{fontWeight:"bold"}}>OK</Text>
             </TouchableOpacity>
+
+            <Text>Khách hàng: {name}</Text>
+            <Text>SĐT: {phone}</Text>
+            <Text>Địa chỉ: {adress}</Text>
+            {/* <Text>Bát: {borrow.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} VNĐ</Text> */}
+            <Text>Ngày nhận tiền: {loandate}</Text>
+            <Text>Kỳ: {numberday} Ngày</Text>
+            <Text>Trạng thái: {status}</Text>
             <View style={styles.headermodal}>
                 <Text style={[styles.text,{fontWeight:"bold"}]}>Khách hàng: {name}</Text>
                 <Text style={styles.text}>SĐT: {phone}</Text>
@@ -198,6 +206,7 @@ export default function BorrowerScreen() {
                     <Text style={styles.text} >{description}</Text>
                 </View>
             </View>
+
             
         </View>
       </Modal>
