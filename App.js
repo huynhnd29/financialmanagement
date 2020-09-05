@@ -1,9 +1,14 @@
-import React from 'react'
-import BorrowerScreen from './src/BorrowerScreen'
-import Bang from './src/components/Bang'
+import React from 'react';
+import BorrowerScreen from './src/BorrowerScreen';
+import HomeScreen from './src/thang/HomeScreen';
 
-export default function App() {
+
+const App = () => {
   return (
-    <Bang />
-  )
-}
+    <HomeScreen/>
+  );
+};
+
+
+
+export default App;
