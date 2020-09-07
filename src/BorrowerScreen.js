@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, TextInput, Modal, ActivityIndicator, Linking } from 'react-native';
 import { DATA } from '../data/data';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-
+import moment from 'moment';
+import { useFocusEffect } from '@react-navigation/native';
+// import 'moment/locale/vi';
+// moment.updateLocale('vi');
 export default function BorrowerScreen() {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisible2, setModalVisible2] = useState(false);
@@ -25,6 +27,8 @@ export default function BorrowerScreen() {
     const [totalloanamount, setTotalloanamount] = useState(0);
 
     const [postData, setPostData] = useState({});
+
+    const [deline,setDeline] = useState("Đang vay")
     
     const customerinformation=(name,phone,address,loandate,numberday,status,borrow,description,ratio)=>{
         setModalVisible(true)
@@ -40,6 +44,8 @@ export default function BorrowerScreen() {
         borrow = borrow/50
         setMoneyaday(borrow.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'))
     }
+
+      
     useEffect (()=>{
         getdata = async () => {
             try {
@@ -47,7 +53,7 @@ export default function BorrowerScreen() {
                 `https://fake-rest-api-nodejsa.herokuapp.com/user`,
               );
               const jsonData = await response.json();
-              console.log(jsonData);
+            //   console.log(jsonData);
     
               setArticles(jsonData);
     
@@ -68,9 +74,11 @@ export default function BorrowerScreen() {
               console.log(e);
             }
           };
-          getdata()
-          console.log("totalloanamount: " + totalloanamount);
+          getdata() 
+        //   console.log("totalloanamount: " + totalloanamount);
           console.log('get News');
+
+          
     },[])
     async function insertData(uri,data){
         const response = await fetch(uri,{
@@ -83,41 +91,34 @@ export default function BorrowerScreen() {
         })
     }
     const renderItem = ({item, index}) => {
-       
+        
+            let statuss ="Đang vay"
+            let date2 = moment(moment(),"YYYY-MM-DD");
+            let date1 = moment(item.loandate,"YYYY-MM-DD");
+            let diff = date2.diff(date1,"day");
+            // console.log(diff)
+            if(diff > 10){
+                statuss="Muộn"
+            }else{
+                statuss="Đang vay"
+            }
+
             return (
+
                 <TouchableOpacity onPress={()=>customerinformation(item.authorName,item.phone,item.address,item.loandate,item.numberday,item.status,item.borrow,item.description,item.ratio)}>
-                  {/* <View style={styles.container}>
-                      <View style={styles.namephone}>
-                          <Text style={{fontWeight:"bold",color:"blue"}}>{item.authorName}</Text>
-                          <Text>{item.phone}</Text>
-                            
-                      </View>
-                      <View style={styles.namephone}>
-                          
-                          <Text>{item.borrow}</Text>
-                      </View>
-                      <View style={styles.namephone}>
-                          <Text style={{fontWeight:"bold"}}>{item.status}</Text>
-                      </View>
-                      <View style={styles.namephone}>
-                          <Text>Hôm Nay</Text>
-                      </View>
-                  </View> */}
                   <View style={styles.container}>
                      <View style={{justifyContent:"space-around"}}>
                         <Text style={{fontWeight:"bold",color:"black",fontSize:20}}>{item.authorName}</Text>
                         <Text>Còn : {item.remain.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} VNĐ</Text>
                      </View>
-                     <View style={{flexDirection:"row-reverse"}}>
-                     <View style={styles.namephone}>
-                          <Text>Hôm Nay</Text>
-                      </View>
-                        <View style={styles.namephone}>
-                          <Text style={{fontWeight:"bold"}}>{item.status}</Text>
-                         </View>
+                        <View style={{justifyContent:"space-between"}}>
+                       
+                                <View style={{width:80}}>
+                                    <Text style={{fontWeight:"bold",color: diff<10 ? "#686de0" : "#eb4d4b"}}>{statuss}</Text>
+                                </View>
                          
-                     </View>
-                  </View>
+                        </View>
+                    </View>
                 
                   
                 </TouchableOpacity>
@@ -134,14 +135,13 @@ export default function BorrowerScreen() {
     }
     const summitdata =(name1,borrow1,address1,phone1,loandate1,numberday1,description1,ratio1)=>{
         setPostData({
-               id: 24,
                authorName: name1,
                borrow:Number(borrow1),
                address:address1,
-               phone:Number(phone1),
+               phone:phone1,
                loandate:loandate1,
                numberday:Number(numberday1),
-               paymentdate:50,
+               paymentdate:10,
                status:"Đang vay",
                remain:Number(borrow1),
                description:description1,
@@ -153,7 +153,7 @@ export default function BorrowerScreen() {
         let phoneNumber = '';
         if (Platform.OS === 'android') { phoneNumber = `tel:${number}`; }
         else {phoneNumber = `telprompt:${number}`; }
-        Linking.openURL(phoneNumber);
+        Linking.openURL( `tel: ${number}`);
      };
     
     return (
@@ -173,7 +173,7 @@ export default function BorrowerScreen() {
                     </View>
                     <View style={{marginTop:40}}>
                         <Text style={{color:"#fff",fontSize:16}}>Bát Họ</Text>
-                        <Text style={styles.totallmoney}>{totalloanamount.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} VNĐ</Text>
+                        <Text style={styles.totallmoney}>{totalloanamount.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') } VNĐ</Text>
                         <Text style={{color:"#fff"}}>Lãi xuất: {interestrate.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
                         <Icon name="bitbucket" size={30} color="gray"/>
                         

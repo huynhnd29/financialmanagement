@@ -16,7 +16,7 @@ export default function Capitalcontribution() {
                 `https://fake-rest-api-nodejsa.herokuapp.com/Capitalcontribution`,
               );
               const jsonData = await response.json();
-              console.log(jsonData);
+            //   console.log(jsonData);
     
               setArticles(jsonData);
     

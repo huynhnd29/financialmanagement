@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity, Image, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { PieChart } from 'react-native-svg-charts'
+function formatCurrency(value) {
+   
+  return value?.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
 export default class HomeScreen extends Component {
     constructor(props) {
         super(props);
@@ -15,6 +19,7 @@ export default class HomeScreen extends Component {
             totalinterestrate:0
         };
     }
+     
     componentDidMount() {
         
         
@@ -119,7 +124,7 @@ export default class HomeScreen extends Component {
                 <Text style={homestyle.text2}>Overview</Text>
                 <View style={{ flexDirection: "row", width: "100%", justifyContent: "space-around", paddingHorizontal: 4, marginTop: 12 }}>
                     <View style={homestyle.moneybox}>
-                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{data.authorizedcapital}</Text>
+                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{formatCurrency( data.authorizedcapital)}</Text>
                         <Text style={{ fontSize: 14, color: "#7B7F9E", marginTop: 12 }}>TỔNG QUỸ TIỀN MẶT</Text>
                     </View>
                     <View style={homestyle.moneybox}>
@@ -193,7 +198,7 @@ export default class HomeScreen extends Component {
                                 <View style={{ flexDirection: "row", marginBottom: 8 }} key={item.key}>
                                     <Icon name="pie-chart" color={item.svg.fill} size={22} />
                                     <Text style={[homestyle.text3, { marginLeft: 4 }]}>{item.title}: </Text>
-                                    <Text style={homestyle.text3}>{item.amount}</Text>
+                                    <Text style={homestyle.text3}>{formatCurrency(item.amount) }</Text>
                                 </View>
                             ))
                         }
@@ -288,7 +293,7 @@ const homestyle = StyleSheet.create({
     moneybox: {
         //    margin: 12,
         //    height: 116,
-        width: "45%",
+        width: "48%",
         backgroundColor: "#212330",
         borderRadius: 12,
         padding: 16,
