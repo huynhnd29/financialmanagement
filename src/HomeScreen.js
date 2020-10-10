@@ -16,7 +16,8 @@ export default class HomeScreen extends Component {
             articles:[],
             Totalloanamount:0,
             totalcontract:0,
-            totalinterestrate:0
+            totalinterestrate:0,
+            totalloan:0
         };
     }
      
@@ -40,12 +41,17 @@ export default class HomeScreen extends Component {
                 // console.log(this.state.data);
                 let totallmoney=0;
                 let contract=0;
+                let  totall =0;
                 for (var i=0;i<json.length;i++){
                     totallmoney +=  (json[i]["borrow"]-json[i]["borrow"]*json[i]["ratio"]/10)
+                    totall +=  json[i]["borrow"]
                     contract++;
                 }
+                
+                
                 this.setState({ Totalloanamount: totallmoney });
                 this.setState({ totalcontract: contract });
+                this.setState({ totalloan : totall})
             })
             .catch((error) => console.error(error))
             .finally(() => {
@@ -81,13 +87,13 @@ export default class HomeScreen extends Component {
             },
             {
                 key: 2,
-                amount: this.state.data["loan"] ,
+                amount: this.state.totalloan ,
                 title: "Đang cho vay",
                 svg: { fill: '#9900cc' }
             },
             {
                 key: 3,
-                amount:this.state.data["authorizedcapital"]-(this.state.data["investmentmoney"]+this.state.data["loan"]),
+                amount:this.state.data["authorizedcapital"]-(this.state.data["investmentmoney"]+this.state.totalloan),
                 title: "Tiền rảnh",
                 svg: { fill: '#c61aff' }
             }
@@ -134,28 +140,28 @@ export default class HomeScreen extends Component {
                 </View>
                 <View style={{ flexDirection: "row", width: "100%", justifyContent: "space-around", paddingHorizontal: 4, marginTop: 12, marginBottom: 12 }}>
                     <View style={homestyle.moneybox}>
-                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{data.investmentmoney}</Text>
+                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{formatCurrency(this.state.totalloan)}</Text>
                         <Text style={{ fontSize: 14, color: "#7B7F9E", marginTop: 12 }}>TIỀN ĐANG CHO VAY</Text>
                     </View>
                     <View style={homestyle.moneybox}>
-                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{this.state.Totalloanamount.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
-                        <Text style={{ fontSize: 14, color: "#7B7F9E", marginTop: 12 }}>LÃI ĐÃ THU TRONG THÁNG</Text>
+                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{formatCurrency(this.state.Totalloanamount)}</Text>
+                        <Text style={{ fontSize: 14, color: "#7B7F9E", marginTop: 12 }}>LÃI XUẤT CHO VAY</Text>
                     </View>
                 </View>
                 <View style={{ flexDirection: "row", width: "100%", justifyContent: "space-around", paddingHorizontal: 4, marginTop: 4, marginBottom: 12 }}>
                     <View style={homestyle.moneybox}>
-                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{this.state.data["loan"]}</Text>
+                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{formatCurrency(this.state.data["loan"])}</Text>
                         <Text style={{ fontSize: 14, color: "#7B7F9E", marginTop: 12 }}>TIỀN ĐANG GÓP VỐN</Text>
                     </View>
                     <View style={homestyle.moneybox}>
-                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{this.state.totalinterestrate.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
+                        <Text style={{ fontSize: 22, color: "#FFFFFF" }}>{formatCurrency(this.state.totalinterestrate)}</Text>
                         <Text style={{ fontSize: 14, color: "#7B7F9E", marginTop: 12 }}>LÃI GÓP VỐN</Text>
                     </View>
                 </View>
                 <Text style={homestyle.text2}>Services</Text>
                 <View style={homestyle.menu}>
                     <View>
-                        <TouchableOpacity style={homestyle.menuItem} onPress={() => randomColor()}>
+                        <TouchableOpacity style={homestyle.menuItem} >
                             <Icon name="motorcycle" style={homestyle.icon} />
                         </TouchableOpacity>
                         <Text style={homestyle.text3}>Cầm đồ</Text>
@@ -219,7 +225,7 @@ export default class HomeScreen extends Component {
                                 <View style={{ flexDirection: "row", marginBottom: 8 }} key={item.key}>
                                     <Icon name="pie-chart" color={item.svg.fill} size={22} />
                                     <Text style={[homestyle.text3, { marginLeft: 4 }]}>{item.title}: </Text>
-                                    <Text style={homestyle.text3}>{item.amount.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</Text>
+                                    <Text style={homestyle.text3}>{formatCurrency(item.amount)}</Text>
                                 </View>
                             ))
                         }

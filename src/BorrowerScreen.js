@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, TextInput, Modal, ActivityIndicator, Linking } from 'react-native';
+import { Text, View, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, TextInput, Modal, ActivityIndicator, Linking, Alert } from 'react-native';
 import { DATA } from '../data/data';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
@@ -9,6 +9,7 @@ import { useFocusEffect } from '@react-navigation/native';
 export default function BorrowerScreen() {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisible2, setModalVisible2] = useState(false);
+    const [modalVisible3, setModalVisible3] = useState(false);
     const [name,setName]=useState("")
     const [phone,setPhone]=useState("")
     const [address,setAddress]=useState("")
@@ -20,17 +21,25 @@ export default function BorrowerScreen() {
     const [ratio,setRatio]=useState(0)
     const [moneyaday,setMoneyaday]=useState(0)
     const [interestrate,setInterestrate]=useState(0)
+    const [id,setId]=useState(0)
+    const [remain,setRemain]= useState(0)
+
+    const [canpush,setCanpush]=useState(false)
 
     const [isLoading, setLoading] = useState(true);
     const [articles, setArticles] = useState([]);
-    
+
+    const [repayment,setRepayment] = useState(0)
+    const [repaymentDay,setRepaymentDay] = useState(0)
+
+
     const [totalloanamount, setTotalloanamount] = useState(0);
 
     const [postData, setPostData] = useState({});
 
     const [deline,setDeline] = useState("Đang vay")
     
-    const customerinformation=(name,phone,address,loandate,numberday,status,borrow,description,ratio)=>{
+    const customerinformation=(name,phone,address,loandate,numberday,status,borrow,description,ratio,id,remain)=>{
         setModalVisible(true)
         setName(name)
         setPhone(phone)
@@ -43,6 +52,8 @@ export default function BorrowerScreen() {
         setRatio(ratio)
         borrow = borrow/50
         setMoneyaday(borrow.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'))
+        setId(id)
+        setRemain(remain)
     }
 
       
@@ -90,11 +101,12 @@ export default function BorrowerScreen() {
             body: JSON.stringify(data),
         })
     }
+    
     const renderItem = ({item, index}) => {
         
             let statuss ="Đang vay"
             let date2 = moment(moment(),"YYYY-MM-DD");
-            let date1 = moment(item.loandate,"YYYY-MM-DD");
+            let date1 = moment(item.repaymentdate,"YYYY-MM-DD");
             let diff = date2.diff(date1,"day");
             // console.log(diff)
             if(diff > 10){
@@ -105,7 +117,7 @@ export default function BorrowerScreen() {
 
             return (
 
-                <TouchableOpacity onPress={()=>customerinformation(item.authorName,item.phone,item.address,item.loandate,item.numberday,item.status,item.borrow,item.description,item.ratio)}>
+                <TouchableOpacity onPress={()=>customerinformation(item.authorName,item.phone,item.address,item.loandate,item.numberday,item.status,item.borrow,item.description,item.ratio,item.id,item.remain)}>
                   <View style={styles.container}>
                      <View style={{justifyContent:"space-around"}}>
                         <Text style={{fontWeight:"bold",color:"black",fontSize:20}}>{item.authorName}</Text>
@@ -129,25 +141,40 @@ export default function BorrowerScreen() {
             
     };  
     async function summit (){
-       
+       if(canpush===true){
         setModalVisible2(false)
         insertData("https://fake-rest-api-nodejsa.herokuapp.com/user",postData)
+        setCanpush(false)
+       }else{
+        
+        setModalVisible2(false)
+       }
+        
+        
     }
     const summitdata =(name1,borrow1,address1,phone1,loandate1,numberday1,description1,ratio1)=>{
-        setPostData({
-               authorName: name1,
-               borrow:Number(borrow1),
-               address:address1,
-               phone:phone1,
-               loandate:loandate1,
-               numberday:Number(numberday1),
-               paymentdate:10,
-               status:"Đang vay",
-               remain:Number(borrow1),
-               description:description1,
-               ratio:Number(ratio1),
-               moneyaday:Number(borrow1)/50
-       })
+        if(name1==="" || borrow1==="" ||address1==="" || phone1==="" ||loandate1==="" || numberday1==="" ||description1==="" || ratio1==="" ){
+            Alert.alert("Thiếu dữ liệu")
+        }else{
+            setPostData({
+                authorName: name1,
+                borrow:Number(borrow1),
+                address:address1,
+                phone:phone1,
+                loandate:loandate1,
+                numberday:Number(numberday1),
+                paymentdate:10,
+                status:"Đang vay",
+                remain:Number(borrow1),
+                description:description1,
+                ratio:Number(ratio1),
+                moneyaday:(Number(borrow1)-Number(borrow1)*8/10)/50,
+                repaymentdate:loandate1
+            })
+            setCanpush(true)
+            Alert.alert("thêm thành công")
+        }
+        
     }
     const dialCall = (number) => {
         let phoneNumber = '';
@@ -155,13 +182,48 @@ export default function BorrowerScreen() {
         else {phoneNumber = `telprompt:${number}`; }
         Linking.openURL( `tel: ${number}`);
      };
-    
+    const addPersion = ()=>{
+        setName("")
+        setPhone("")
+        setAddress("")
+        setLoandate("")
+        setNumberday("")
+        setStatus("")
+        setBorrow(""),
+        setDescription("")
+        setRatio("")
+        setMoneyaday("")
+        setId("")
+        setRemain("")
+        setModalVisible2(true)
+    }
+       
+    async function repaymentFuncion  (){
+        const response = await  fetch("https://fake-rest-api-nodejsa.herokuapp.com/user" + "/" + id, {
+            method: 'PATCH',
+            headers: {
+                // Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                remain:remain-repayment,
+                repaymentdate:moment(moment(),"YYYY-MM-DD")
+            })
+          }).then((response) => {
+            response.json().then((response) => {
+              console.log(response);
+            })
+          }).catch(err => {
+            console.error(err)
+          })
+        setModalVisible3(false)
+    }
     return (
         <SafeAreaView style={{flex:1}}>   
             
                 <View style={styles.header}>
                     <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                        <TouchableOpacity style={styles.addnew} onPress={()=>setModalVisible2(true)}>
+                        <TouchableOpacity style={styles.addnew} onPress={()=>addPersion()}>
                             <Text style={{fontWeight:"bold"}}>Thêm mới</Text>
                         </TouchableOpacity>
                         <View style={{flexDirection:"row"}}>
@@ -205,9 +267,14 @@ export default function BorrowerScreen() {
             visible={modalVisible}
             >
             <View style={{flex:1,backgroundColor:"#fff",paddingHorizontal:16}}>
-                <TouchableOpacity style={styles.addnew} onPress={()=>setModalVisible(false)}>
-                    <Text style={{fontWeight:"bold"}}>OK</Text>
-                </TouchableOpacity>
+                <View style={{flexDirection:"row",justifyContent:"space-between"}}>
+                    <TouchableOpacity style={styles.addnew} onPress={()=>setModalVisible(false)}>
+                        <Text style={{fontWeight:"bold"}}>OK</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.addnew} onPress={()=>setModalVisible3(true)}>
+                        <Text style={{fontWeight:"bold"}}>Thu tiền hạn</Text>
+                    </TouchableOpacity>
+                </View>
                 
                 <View style={styles.headermodal}>
                     <Text style={[styles.text,{fontWeight:"bold"}]}>Khách hàng: {name}</Text>
@@ -263,13 +330,28 @@ export default function BorrowerScreen() {
                 <TextInput style={styles.input} placeholder=" Bát" onChangeText={text => setBorrow(text)} />
                 <TextInput style={styles.input} placeholder=" Địa chỉ" onChangeText={text => setAddress(text)}/>
                 <TextInput style={styles.input} placeholder=" tỷ lên /10" onChangeText={text => setRatio(text)}/>
-                <TextInput style={styles.input} placeholder=" Ngày nhận tiền" onChangeText={text => setLoandate(text)}/>
+                <TextInput style={styles.input} placeholder=" Ngày nhận tiền (Năm - tháng - ngày)" onChangeText={text => setLoandate(text)}/>
                 <TextInput style={styles.input} placeholder=" Trả trong" onChangeText={text => setNumberday(text)}/>
                 {/* <TextInput style={styles.input} placeholder=" kỳ" onChangeText={text => setPay(text)}/> */}
                 <TextInput style={styles.input} placeholder=" Mô tả" onChangeText={text => setDescription(text)}/>
                 <TouchableOpacity style={styles.addnew} onPress={()=>summitdata(name,borrow,address,phone,loandate,numberday,description,ratio)}>
-                    <Text style={{fontWeight:"bold"}}>Thêm</Text>
+                    <Text style={{fontWeight:"bold"}}>Kiểm Tra </Text>
                 </TouchableOpacity>
+                
+                
+            </View>
+      </Modal>
+      <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible3}
+            >
+            <View style={{flex:1,backgroundColor:"#fff",paddingHorizontal:16}}>
+                <TouchableOpacity style={styles.addnew} onPress={()=>repaymentFuncion()}>
+                    <Text style={{fontWeight:"bold"}}>OK</Text>
+                </TouchableOpacity>
+                <TextInput style={styles.input} placeholder="Số Tiền" onChangeText={text => setRepayment(Number(text))} />
+                {/* <TextInput style={styles.input} placeholder="Trả trong đến ngày" onChangeText={text => setRepaymentDay(text)}/> */}
                 
                 
             </View>
