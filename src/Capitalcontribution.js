@@ -10,6 +10,8 @@ function formatCurrency(value) {
 export default function Capitalcontribution() {  
     const [isLoading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible2, setModalVisible2] = useState(false);
+
     const [articles, setArticles] = useState([]);    
     const [totalinvest,setTotalinvest]=useState(0)
     const [interestrate,setInterestrate]=useState(0)
@@ -85,7 +87,7 @@ export default function Capitalcontribution() {
         <SafeAreaView style={{flex:1}}>
                     <View style={styles.header}>
                         <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                            <TouchableOpacity style={styles.addnew}>
+                            <TouchableOpacity style={styles.addnew} onPress={()=>setModalVisible2(true)}>
                                <Text style={{fontWeight:"bold"}}>Thêm mới</Text>
                             </TouchableOpacity>
                         <View style={{flexDirection:"row"}}>
@@ -152,6 +154,30 @@ export default function Capitalcontribution() {
                     <Text style={styles.text}> {Capital.description}</Text>
                 </View>
                
+                
+                
+                
+            </View>
+      </Modal>
+      <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible2}
+            >
+            <View style={{flex:1,backgroundColor:"#fff",paddingHorizontal:16}}>
+                <TouchableOpacity style={styles.addnew} onPress={()=>setModalVisible2(false)}>
+                    <Text style={{fontWeight:"bold"}}>OK</Text>
+                </TouchableOpacity>
+                
+                {/* <TextInput style={styles.input} placeholder=" Tên khách hàng" onChangeText={text => setName(text)} />
+                <TextInput style={styles.input} placeholder=" Số điện thoại" onChangeText={text => setPhone(text)}/>
+                <TextInput style={styles.input} placeholder=" Bát" onChangeText={text => setBorrow(text)} />
+                <TextInput style={styles.input} placeholder=" Địa chỉ" onChangeText={text => setAddress(text)}/>
+                <TextInput style={styles.input} placeholder=" tỷ lên /10" onChangeText={text => setRatio(text)}/>
+                <TextInput style={styles.input} placeholder=" Ngày nhận tiền (Năm - tháng - ngày)" onChangeText={text => setLoandate(text)}/>
+                <TextInput style={styles.input} placeholder=" Trả trong" onChangeText={text => setNumberday(text)}/>
+                {/* <TextInput style={styles.input} placeholder=" kỳ" onChangeText={text => setPay(text)}/> */}
+              
                 
                 
                 
